@@ -1,0 +1,31 @@
+{
+  "name": "nyccamp-sails",
+  "version": "0.1.0",
+  "homepage": "https://github.com/forumone/nyccamp-sails",
+  "authors": [
+    "William Hurley <whurley@forumone.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2",
+    "angular": "~1.4.1",
+    "angular-aria": "~1.4.1",
+    "angular-sanitize": "~1.4.1",
+    "angular-route": "~1.4.1",
+    "angular-cookies": "~1.4.1",
+    "angular-ui-router": "~0.2.13",
+    "lodash": "~3.4.0",
+    "jquery-hoverIntent": "~1.8.1",
+    "jquery-selectability": "~1.0.1",
+    "angular-material": "master",
+    "angular-uuid4": "~0.3.0"
+  }
+}

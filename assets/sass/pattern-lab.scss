@@ -1,0 +1,9 @@
+// @files
+// Styles for Pattern Lab.
+
+@import 'partials/global';
+@import 'partials/layout/page';
+
+.sg-pattern {
+  @extend .layout-constrain;
+}

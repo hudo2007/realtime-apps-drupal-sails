@@ -1,0 +1,51 @@
+diff --git a/core/modules/rest/src/Plugin/Deriver/EntityDeriver.php b/core/modules/rest/src/Plugin/Deriver/EntityDeriver.php
+index 3d987a2..002915b 100644
+--- a/core/modules/rest/src/Plugin/Deriver/EntityDeriver.php
++++ b/core/modules/rest/src/Plugin/Deriver/EntityDeriver.php
+@@ -77,6 +77,9 @@ public function getDerivativeDefinitions($base_plugin_definition) {
+           'id' => 'entity:' . $entity_type_id,
+           'entity_type' => $entity_type_id,
+           'serialization_class' => $entity_type->getClass(),
++          'serialization_context' => array(
++            'entity_type' => $entity_type->id(),
++          ),
+           'label' => $entity_type->getLabel(),
+         );
+ 
+diff --git a/core/modules/rest/src/Plugin/rest/resource/EntityResource.php b/core/modules/rest/src/Plugin/rest/resource/EntityResource.php
+index 448a353..4e76671 100644
+--- a/core/modules/rest/src/Plugin/rest/resource/EntityResource.php
++++ b/core/modules/rest/src/Plugin/rest/resource/EntityResource.php
+@@ -24,6 +24,9 @@
+  *   label = @Translation("Entity"),
+  *   serialization_class = "Drupal\Core\Entity\Entity",
+  *   deriver = "Drupal\rest\Plugin\Deriver\EntityDeriver",
++ *   serialization_context = {
++ *     "entity_type" = "entity"
++ *   },
+  *   uri_paths = {
+  *     "canonical" = "/entity/{entity_type}/{entity}",
+  *     "http://drupal.org/link-relations/create" = "/entity/{entity_type}"
+diff --git a/core/modules/rest/src/RequestHandler.php b/core/modules/rest/src/RequestHandler.php
+index 2aa65ad..c132bb2 100644
+--- a/core/modules/rest/src/RequestHandler.php
++++ b/core/modules/rest/src/RequestHandler.php
+@@ -60,8 +60,17 @@ public function handle(RouteMatchInterface $route_match, Request $request) {
+       if (empty($method_settings['supported_formats']) || in_array($format, $method_settings['supported_formats'])) {
+         $definition = $resource->getPluginDefinition();
+         $class = $definition['serialization_class'];
++        $context = array();
++        // Get context information for deserialization from the plugin
++        // definition.
++        if (!empty($definition['serialization_context'])) {
++          $context = $definition['serialization_context'];
++        }
++        // Always add the resource ID to the deserialization context.
++        $context['resource_id'] = $plugin;
++        $context['request_method'] = $method;
+         try {
+-          $unserialized = $serializer->deserialize($received, $class, $format, array('request_method' => $method));
++          $unserialized = $serializer->deserialize($received, $class, $format, $context);
+         }
+         catch (UnexpectedValueException $e) {
+           $error['error'] = $e->getMessage();

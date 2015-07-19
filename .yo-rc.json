@@ -1,0 +1,21 @@
+{
+  "generator-web-starter": {
+    "install_type": "advanced",
+    "name": "nyccamp_sails",
+    "version": "0.1.0",
+    "refspec": "1.1.x",
+    "platform": "drupal",
+    "repository": "git@github.com:forumone/nyccamp-sails.git",
+    "features": false,
+    "cmi": false,
+    "solr": false,
+    "drupal_use_compass": false,
+    "puppet": true,
+    "host": "f1dev",
+    "app_webroot": "public",
+    "db_name": "web",
+    "db_user": "web",
+    "php_prefix": "php54",
+    "use_capistrano": false
+  }
+}

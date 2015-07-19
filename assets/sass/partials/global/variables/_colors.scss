@@ -1,0 +1,32 @@
+// @file
+// Color variables
+// http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#variables_
+
+$gsa-blue: #1daaf1;
+$gsa-dark-blue: #146087;
+$gsa-white: #fcfcfc;
+$gsa-orange: #d14600;
+$gsa-light-orange: #fc8d59;
+$gsa-dark-gray: #333;
+$gsa-medium-gray: #bdbdbd;
+$gsa-light-gray: #c9c7c8;
+$gsa-red: #eb2e80;
+
+$primary-text-color: $gsa-dark-gray;
+$secondary-text-color: #555;
+$heading-text-color: $gsa-dark-gray;
+$body-color: $gsa-white;
+$link-color: $gsa-blue;
+$link-hover-color: $gsa-dark-blue;
+$selection-background: $gsa-blue;
+$selection-foreground: #fff;
+
+// Buttons
+$button-bg-color: #2b8cbe;
+$button-border-color: #045a8d;
+$button-text-color: #fff;
+$button-disabled-bg-color: #818181;
+$button-disabled-border-color: #4f4f4f;
+
+// Forms
+$border-color: $gsa-medium-gray;

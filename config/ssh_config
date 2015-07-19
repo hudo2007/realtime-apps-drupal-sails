@@ -1,0 +1,5 @@
+# Custom SSH config
+Host prod.forumone.com
+  Hostname prod.forumone.com
+  StrictHostKeyChecking no
+  User agilebpa

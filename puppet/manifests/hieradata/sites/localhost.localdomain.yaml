@@ -1,0 +1,16 @@
+---
+forumone::databases: 
+  web: 
+    username: web
+
+forumone::webserver::vhosts:  
+  vagrant: 
+    path: "/vagrant/public"
+
+forumone::php::prefix: "php55u"
+
+forumone::nodejs::modules:
+  - grunt-cli
+  - bower
+  
+forumone::webserver::webserver: apache

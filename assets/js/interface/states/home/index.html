@@ -1,0 +1,21 @@
+<h1>Demo</h1>
+<md-list>
+  <md-list-item class="md-2-line" ng-repeat="item in todos">
+    <form ng-submit="doneEditing(item)">
+      <div layout="row">
+        <md-checkbox flex ng-model="item.status[0].value" ng-change="doneEditing(item)" ng-true-value='"0"' ng-false-value='"1"' aria-label="Completed"></md-checkbox>
+        <md-input-container>
+          <input type="text" 
+            ng-model="item.title[0].value" 
+            ng-click="$event.stopPropagation()" 
+            aria-label="Todo name" 
+            ng-change="doneEditing(item)" 
+            ng-model-options="{ updateOn : 'blur' }">
+        </md-input-container>
+        <md-icon md-font-set="material-icons" flex ng-click="deleteItem(item, $event)" ng-show="item.id">highlight_off</md-icon>
+      </div>
+    </form>
+  </md-list-item>
+</md-list>
+
+<md-button class="md-primary" ng-click="addTodo()">Add item</md-button>

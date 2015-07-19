@@ -1,0 +1,51 @@
+// @file
+// Button helpers
+
+@mixin button($bg-color: $button-bg-color, $border-color: $button-border-color, $text-color: $button-text-color, $font-size: $font-size-md, $font-family: $button-font-family) {
+  @include adjust-font-size-to($font-size);
+  background-color: $bg-color;
+  border: 1px solid $border-color;
+  color: $button-text-color;
+  cursor: pointer;
+  display: inline-block;
+  font-family: $font-family;
+  margin: 0 0 rhythm(1);
+  padding: 0.714285em 1em;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: baseline;
+
+  @if support-legacy-browser('ie', '6', '7') {
+    *line-height: normal;
+    *zoom: 1;
+  }
+
+  &:focus,
+  &:hover {
+    background-color: lighten($bg-color, 15%);
+    color: $button-text-color;
+    outline: 0;
+  }
+
+  &:active {
+    background-color: darken($bg-color, 10%);
+    border-color: darken($bg-color, 30%);
+  }
+}
+
+%button {
+  @include button();
+
+  & + & {
+    margin-left: 1em; // LTR
+
+    [dir="rtl"] & {
+    margin-left: 0;
+    margin-right: 1em;
+    }
+  }
+}
+
+%button--large {
+  @include adjust-font-size-to($font-size-lg);
+}
