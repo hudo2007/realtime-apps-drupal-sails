@@ -102,19 +102,32 @@ module.exports.connections = {
       update : 'patch'
     },
     hooks: {
-      merge:    true,            // flag that indicates whether or not to merge build-in hooks with user-provided hooks
+      merge:    false,            // flag that indicates whether or not to merge build-in hooks with user-provided hooks
       before:   [ function(req, method, config, conn) {
+        var query = {};
+        if (_.isObject(conn.options) && conn.options.hasOwnProperty('where')) {
+          query = conn.options.where;
+          delete conn.options.where;
+          conn.options = _.merge(conn.options, query);
+        }
+      },
+      function(req, method, config, conn) {
+        if (_.isObject(conn.options) && conn.options.hasOwnProperty('id')) {
+          config.endpoint = url.resolve(conn.connection.endpoint + '/', conn.collection + '/' + conn.options.id);
+          delete conn.options.id;
+        } else {
+          if ('post' == method) {
+            config.endpoint = url.resolve(conn.connection.endpoint + '/', 'entity/' + conn.collection);
+          }
+          else {
+            config.endpoint = url.resolve(conn.connection.endpoint + '/', 'api/todo');
+          }
+        }
+      }, 
+      function(req, method, config, conn) {
         // Set the format option
         if ('get' == method) {
           conn.options._format = 'json';
-          var basicEndpoints = _.compact(url.resolve(conn.connection.endpoint + '/', conn.collection).split('/'));
-          var endpointVals = _.compact(config.endpoint.split('/'));
-
-          // If the size of the current endpoint and the connection endpoint are the same switch to using other
-          // endpoint
-          if (endpointVals.length == basicEndpoints.length) {
-            config.endpoint = url.resolve(conn.connection.endpoint, 'api/todo');
-          }
         }
 
         // Set CSRF token
@@ -132,10 +145,6 @@ module.exports.connections = {
         // Remove createdAt attribute
         if (_.has(conn.values, 'createdAt')) {
           delete conn.values.createdAt;
-        }
-        
-        if ('post' == method) {
-          config.endpoint = url.resolve(conn.connection.endpoint + '/entity/', conn.collection);
         }
       }], 
       after:    [ function(err, res) {
