@@ -32,7 +32,7 @@ angular.module('nyccampSails').controller('HomeController', function($scope, $st
 	  else {
 	    todoItems.create(item)
 	    .then(function(result) {
-	      item = _.extend(item, result.data);
+	      item = _.extend(item, result);
 	    });
 	  }
 	}

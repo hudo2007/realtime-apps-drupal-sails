@@ -3,6 +3,7 @@ angular.module('nyccampSails').service('todoItems', function($http, $q, $rootSco
   
   // Callback for Socket I/O subscriptions
   io.socket.on('node', function(event) {
+    console.log('Response received: ' + Date.now());
     switch (event.verb) {
       case 'created':
         // Try to find the todo item by the temporary UUID
@@ -66,20 +67,26 @@ angular.module('nyccampSails').service('todoItems', function($http, $q, $rootSco
   
   // Update a todo item
   function update(id, params) {
-    return $http({
-      method : 'PUT',
-      url : endpointUrl + '/node/' + id,
-      data : params
+    console.log('Request sent: ' + Date.now());
+    var defer = $q.defer();
+    
+    io.socket.put('/node/' + id, params, function(resData, jwres) {
+      defer.resolve();
     });
+    
+    return defer.promise;
   }
   
   // Create a todo item
   function create(params) {
-    return $http({
-      method : 'POST',
-      url : endpointUrl + '/node',
-      data : params
+    console.log('Request sent: ' + Date.now());
+    var defer = $q.defer();
+    
+    io.socket.post('/node', params, function(resData, jwres) {
+      defer.resolve(resData);
     });
+    
+    return defer.promise;
   }
   
   // Find a set of todo item
@@ -107,14 +114,14 @@ angular.module('nyccampSails').service('todoItems', function($http, $q, $rootSco
   
   // Delete a todo item
   function destroy(id) {
-    return $http({
-      method : 'DELETE',
-      url : endpointUrl + '/node/' + id
-    }).then(function() {
-      _.remove(todos, function(todo) {
-        return (todo.id == id); 
-      });
+    console.log('Request sent: ' + Date.now());
+    var defer = $q.defer();
+    
+    io.socket.delete('/node/' + id, function(resData, jwres) {
+      defer.resolve(resData);
     });
+    
+    return defer.promise;
   }
   
   return {
