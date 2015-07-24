@@ -31,7 +31,7 @@
     "request-promise": "^0.4.2",
     "sails": "~0.11.0",
     "sails-disk": "~0.10.0",
-    "sails-rest": "wwhurley/sails-rest#v0.1.0-waterline-v0.10"
+    "sails-rest": "zohararad/sails-rest#v0.1.0-waterline-v0.10"
   },
   "scripts": {
     "start": "node app.js",
